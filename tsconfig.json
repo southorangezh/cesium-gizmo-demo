@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["DOM", "ES2020"],
+    "types": ["cesium"],
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/lib/*": ["src/lib/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts", "tests"],
+  "references": []
+}
