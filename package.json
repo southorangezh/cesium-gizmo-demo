@@ -1,0 +1,20 @@
+{
+  "name": "cesium-gizmo-demo",
+  "version": "1.0.0",
+  "description": "Universal manipulator for Cesium scenes with example and tests",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build:watch": "tsc -p tsconfig.build.json --watch",
+    "test": "npm run build && node --test dist/tests",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "cesium",
+    "manipulator",
+    "gizmo",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Universal Manipulator Demo</title>
+    <style>
+      body {
+        margin: 0;
+        background: #0b1120;
+        color: #f7fafc;
+        font-family: sans-serif;
+        display: flex;
+        height: 100vh;
+      }
+      #sidebar {
+        width: 280px;
+        padding: 16px;
+        box-sizing: border-box;
+        background: rgba(10, 10, 20, 0.85);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      #scene {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+      }
+      select,
+      button {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: none;
+        margin-top: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #f7fafc;
+      }
+      button {
+        cursor: pointer;
+      }
+      h2 {
+        margin: 0 0 8px 0;
+        font-size: 1.1rem;
+      }
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sidebar">
+      <div>
+        <h2>Universal Manipulator</h2>
+        <p>
+          拖动场景中的彩色手柄即可移动、旋转或缩放目标。按住 Shift 进行微调，按住 Ctrl/⌘ 进行大步长拖动。
+        </p>
+      </div>
+      <div>
+        <label for="orientation">Orientation</label>
+        <select id="orientation">
+          <option value="global">Global</option>
+          <option value="local">Local</option>
+          <option value="view">View</option>
+          <option value="enu">ENU</option>
+          <option value="normal">Normal</option>
+          <option value="gimbal">Gimbal</option>
+        </select>
+      </div>
+      <div>
+        <label for="pivot">Pivot</label>
+        <select id="pivot">
+          <option value="origin">Origin</option>
+          <option value="median">Median</option>
+          <option value="cursor">Cursor</option>
+          <option value="individual">Individual</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button id="undo">Undo</button>
+        <button id="redo">Redo</button>
+      </div>
+      <div>
+        <p>按 Esc 取消当前拖拽。使用方向下拉选项可以体验不同参考系与 Pivot 逻辑。</p>
+      </div>
+    </div>
+    <div id="scene"></div>
+    <script type="module" src="../dist/example/main.js"></script>
+  </body>
+</html>
