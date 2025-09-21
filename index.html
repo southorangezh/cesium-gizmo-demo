@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cesium Universal Manipulator Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.css" />
+    <style>
+      body, html {
+        margin: 0;
+        height: 100%;
+        background: #020b1a;
+        color: #e5ecff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #app {
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+      .sidebar {
+        width: 320px;
+        background: rgba(4, 12, 30, 0.92);
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 16px;
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+      .sidebar h2 {
+        margin-top: 0;
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .sidebar label {
+        display: block;
+        margin-bottom: 12px;
+      }
+      .sidebar select,
+      .sidebar input[type="number"],
+      .sidebar input[type="text"] {
+        width: 100%;
+        margin-top: 4px;
+        padding: 6px 8px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        background: rgba(10, 18, 40, 0.8);
+        color: inherit;
+      }
+      #viewer-container {
+        flex: 1;
+        position: relative;
+      }
+      #viewer {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="sidebar">
+        <h2>Manipulator Controls</h2>
+        <div id="control-panel"></div>
+      </div>
+      <div id="viewer-container">
+        <div id="viewer"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
