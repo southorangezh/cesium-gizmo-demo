@@ -1,0 +1,23 @@
+{
+  "name": "cesium-gizmo-demo",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "cesium": "^1.118.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@vitest/coverage-v8": "^1.6.0",
+    "cesium": "^1.118.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.0",
+    "vitest": "^1.6.0"
+  }
+}
