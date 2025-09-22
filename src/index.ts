@@ -1,0 +1,15 @@
+export * from './core/types.js';
+export { UniversalManipulator } from './core/UniversalManipulator.js';
+export { GizmoPrimitive } from './core/GizmoPrimitive.js';
+export { GizmoPicker } from './core/GizmoPicker.js';
+export { ManipulatorController } from './core/ManipulatorController.js';
+export { TransformSolver } from './core/TransformSolver.js';
+export { Snapper } from './core/Snapper.js';
+export { PivotResolver } from './core/PivotResolver.js';
+export { FrameBuilder } from './core/FrameBuilder.js';
+export { HudOverlay } from './core/HudOverlay.js';
+export { CommandStack } from './core/CommandStack.js';
+export { Vector3, fromArray as vector3FromArray, toArray as vector3ToArray } from './utils/math/Vector3.js';
+export { Quaternion, quaternionFromArray, quaternionToArray } from './utils/math/Quaternion.js';
+export { Matrix4, matrix4FromArray, matrix4ToArray } from './utils/math/Matrix4.js';
+export { Ray as MathRay, closestPointsBetweenRays, intersectRayPlane } from './utils/math/Ray.js';

@@ -1,0 +1,14 @@
+{
+  "name": "cesium-gizmo-demo",
+  "version": "1.0.0",
+  "description": "Universal manipulator for Cesium demo",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --experimental-specifier-resolution=node dist/tests/run-tests.js",
+    "check": "npm run build"
+  },
+  "keywords": ["cesium", "manipulator", "gizmo"],
+  "author": "",
+  "license": "MIT"
+}
