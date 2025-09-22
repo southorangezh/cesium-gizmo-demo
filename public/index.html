@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cesium Universal Manipulator Demo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.118/Build/Cesium/Widgets/widgets.css" />
+  <link rel="stylesheet" href="../src/runtime/hud.css" />
+  <style>
+    html, body, #app {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #1d1f21;
+      font-family: sans-serif;
+    }
+    #viewer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 240px;
+      bottom: 0;
+    }
+    #panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 240px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #f0f0f0;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    #panel label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    #panel select, #panel input {
+      width: 100%;
+      margin-top: 4px;
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewer"></div>
+  <div id="panel">
+    <h2>Manipulator Settings</h2>
+    <label>Mode
+      <select id="mode">
+        <option value="translate">Translate</option>
+        <option value="rotate">Rotate</option>
+        <option value="scale">Scale</option>
+      </select>
+    </label>
+    <label>Orientation
+      <select id="orientation">
+        <option value="global">Global</option>
+        <option value="local">Local</option>
+        <option value="view">View</option>
+        <option value="enu">ENU</option>
+        <option value="normal">Normal</option>
+        <option value="gimbal">Gimbal</option>
+      </select>
+    </label>
+    <label>Pivot
+      <select id="pivot">
+        <option value="origin">Origin</option>
+        <option value="median">Median</option>
+        <option value="cursor">Cursor</option>
+        <option value="individual">Individual</option>
+      </select>
+    </label>
+    <label>Snap (meters)
+      <input type="number" id="snap-translate" value="0" step="0.1" />
+    </label>
+    <label>Snap Rotation (degrees)
+      <input type="number" id="snap-rotate" value="5" step="1" />
+    </label>
+    <label>Snap Scale (%)
+      <input type="number" id="snap-scale" value="0" step="5" />
+    </label>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/cesium@1.118/Build/Cesium/Cesium.js"></script>
+  <script type="module">
+    import { UniversalManipulator } from '../src/index.js';
+
+    const viewer = new Cesium.Viewer('viewer', {
+      terrainProvider: Cesium.createWorldTerrain(),
+      selectionIndicator: false,
+      infoBox: false,
+    });
+
+    viewer.scene.globe.depthTestAgainstTerrain = true;
+
+    const entity = viewer.entities.add({
+      name: 'Demo Box',
+      position: Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883, 100),
+      box: {
+        dimensions: new Cesium.Cartesian3(50.0, 50.0, 50.0),
+        material: Cesium.Color.ORANGE.withAlpha(0.6),
+        outline: true,
+      },
+    });
+
+    const manipulator = new UniversalManipulator(viewer, {
+      target: entity,
+      orientation: 'global',
+      pivot: 'origin',
+      snap: {
+        translate: { step: 0, microStep: 0.1 },
+        rotate: { step: 5 * Math.PI / 180 },
+        scale: { step: 0 },
+      },
+    });
+
+    const modeSelect = document.getElementById('mode');
+    modeSelect.addEventListener('change', () => {
+      manipulator.controller.setMode(modeSelect.value);
+    });
+
+    const orientationSelect = document.getElementById('orientation');
+    orientationSelect.addEventListener('change', () => {
+      manipulator.setOrientation(orientationSelect.value);
+    });
+
+    const pivotSelect = document.getElementById('pivot');
+    pivotSelect.addEventListener('change', () => {
+      manipulator.setPivot(pivotSelect.value);
+    });
+
+    function updateSnap() {
+      const translate = parseFloat(document.getElementById('snap-translate').value) || 0;
+      const rotateDeg = parseFloat(document.getElementById('snap-rotate').value) || 0;
+      const scalePercent = parseFloat(document.getElementById('snap-scale').value) || 0;
+      manipulator.setSnap({
+        translate: { step: translate },
+        rotate: { step: rotateDeg * Math.PI / 180 },
+        scale: { step: scalePercent / 100 },
+      });
+    }
+
+    document.getElementById('snap-translate').addEventListener('input', updateSnap);
+    document.getElementById('snap-rotate').addEventListener('input', updateSnap);
+    document.getElementById('snap-scale').addEventListener('input', updateSnap);
+
+    updateSnap();
+
+    viewer.zoomTo(entity);
+  </script>
+</body>
+</html>

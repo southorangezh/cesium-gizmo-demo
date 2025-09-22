@@ -1,0 +1,53 @@
+.manipulator-hud {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(30, 30, 30, 0.85);
+  color: #f8f8f8;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: sans-serif;
+  font-size: 12px;
+  pointer-events: auto;
+  z-index: 10;
+  min-width: 220px;
+}
+
+.manipulator-hud .hud-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.manipulator-hud .hud-label {
+  color: #a0a0a0;
+}
+
+.manipulator-hud .hud-value {
+  min-width: 42px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.manipulator-hud .hud-input {
+  flex: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  color: #f8f8f8;
+}
+
+.manipulator-hud button {
+  background: rgba(80, 120, 255, 0.6);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.manipulator-hud button:hover {
+  background: rgba(120, 160, 255, 0.85);
+}
