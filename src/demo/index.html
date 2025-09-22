@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Universal Manipulator Demo</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: sans-serif;
+        background: #1c1e22;
+        color: #f3f3f3;
+      }
+      #app {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #101218;
+        cursor: crosshair;
+      }
+      .hud-overlay {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(0, 0, 0, 0.65);
+        padding: 8px 12px;
+        border-radius: 6px;
+        pointer-events: none;
+      }
+      .controls {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        background: rgba(0, 0, 0, 0.65);
+        padding: 16px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .controls label {
+        display: block;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="viewport"></canvas>
+      <div class="controls">
+        <label>
+          Mode
+          <select id="mode-select">
+            <option value="translate">Translate</option>
+            <option value="rotate">Rotate</option>
+            <option value="scale">Scale</option>
+          </select>
+        </label>
+        <label>
+          Orientation
+          <select id="orientation-select">
+            <option value="global">Global</option>
+            <option value="local">Local</option>
+            <option value="view">View</option>
+            <option value="enu">ENU</option>
+          </select>
+        </label>
+        <label>
+          Pivot
+          <select id="pivot-select">
+            <option value="origin">Origin</option>
+            <option value="median">Median</option>
+            <option value="cursor">Cursor</option>
+            <option value="individual">Individual</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <script type="module">
+      import { UniversalManipulator } from '../lib/UniversalManipulator.js';
+      import { Vector3 } from '../math/Vector3.js';
+      import { Matrix4 } from '../math/Matrix4.js';
+      import { Quaternion } from '../math/Quaternion.js';
+      import { Ray } from '../math/Ray.js';
+
+      const canvas = document.getElementById('viewport');
+      const ctx = canvas.getContext('2d');
+      const resize = () => {
+        canvas.width = canvas.clientWidth * window.devicePixelRatio;
+        canvas.height = canvas.clientHeight * window.devicePixelRatio;
+      };
+      window.addEventListener('resize', resize);
+      resize();
+
+      const camera = {
+        position: new Vector3(0, 0, 6),
+        direction: new Vector3(0, 0, -1),
+        up: new Vector3(0, 1, 0),
+        right: new Vector3(1, 0, 0),
+        fov: Math.PI / 3,
+        viewportHeight: canvas.height
+      };
+
+      function createRay(event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width * 2 - 1;
+        const y = -((event.clientY - rect.top) / rect.height * 2 - 1);
+        const aspect = rect.width / rect.height;
+        const tanFov = Math.tan(camera.fov / 2);
+        const dir = new Vector3(
+          x * aspect * tanFov,
+          y * tanFov,
+          -1
+        ).normalize();
+        return new Ray(camera.position.clone(), dir);
+      }
+
+      const manipulator = new UniversalManipulator({
+        canvas,
+        createRay,
+        getCamera: () => ({
+          position: camera.position.clone(),
+          direction: camera.direction.clone(),
+          up: camera.up.clone(),
+          right: camera.right.clone(),
+          fov: camera.fov,
+          viewportHeight: canvas.height
+        }),
+        overlayContainer: document.getElementById('app')
+      });
+
+      const targets = [
+        { matrix: new Matrix4().compose(new Vector3(-1.5, 0, 0), new Quaternion(), new Vector3(1, 1, 1)) },
+        { matrix: new Matrix4().compose(new Vector3(1.5, 0, 0), new Quaternion(), new Vector3(1, 1, 1)) }
+      ];
+      manipulator.setTarget(targets);
+
+      function drawScene() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.scale(80, -80);
+        ctx.lineWidth = 1 / 80;
+        ctx.strokeStyle = '#888';
+        ctx.beginPath();
+        ctx.moveTo(-10, 0);
+        ctx.lineTo(10, 0);
+        ctx.moveTo(0, -10);
+        ctx.lineTo(0, 10);
+        ctx.stroke();
+
+        targets.forEach((target) => {
+          const m = target.matrix.elements;
+          const x = m[12];
+          const y = m[13];
+          ctx.fillStyle = '#3498db';
+          ctx.beginPath();
+          ctx.rect(x - 0.3, y - 0.3, 0.6, 0.6);
+          ctx.fill();
+        });
+        ctx.restore();
+        requestAnimationFrame(drawScene);
+      }
+      drawScene();
+
+      document.getElementById('mode-select').addEventListener('change', (e) => {
+        manipulator.setMode(e.target.value);
+      });
+      document.getElementById('orientation-select').addEventListener('change', (e) => {
+        manipulator.setOrientation(e.target.value);
+      });
+      document.getElementById('pivot-select').addEventListener('change', (e) => {
+        manipulator.setPivot(e.target.value);
+      });
+    </script>
+  </body>
+</html>
