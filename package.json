@@ -1,0 +1,19 @@
+{
+  "name": "cesium-gizmo-demo",
+  "version": "1.0.0",
+  "description": "Universal manipulator for Cesium scenes with example showcase",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/tests/index.test.js"
+  },
+  "keywords": ["cesium", "gizmo", "manipulator", "transform"],
+  "author": "",
+  "license": "MIT"
+}
