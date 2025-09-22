@@ -1,0 +1,12 @@
+{
+  "name": "cesium-gizmo-demo",
+  "version": "1.0.0",
+  "description": "Universal manipulator demo without external dependencies",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["cesium", "manipulator", "gizmo"],
+  "author": "",
+  "license": "MIT"
+}
