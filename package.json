@@ -1,0 +1,17 @@
+{
+  "name": "cesium-gizmo-demo",
+  "version": "0.1.0",
+  "description": "Universal manipulator for Cesium scenes with translation, rotation, and scale support.",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run-tests.mjs"
+  },
+  "keywords": [
+    "cesium",
+    "manipulator",
+    "gizmo",
+    "graphics"
+  ],
+  "author": "",
+  "license": "MIT"
+}
